@@ -1,0 +1,2 @@
+{"timestamp": "2025-03-27T15:07:34.893852", "query": "Хочу игровой ноутбук до 1000 долларов с 16 ГБ оперативки и RTX видеокартой", "llm_response": "{\n    \"max_price\": 1000,\n    \"ram\": 16,\n    \"gpu\": \"RTX\"\n}", "parsed": {"max_price": 1000, "ram": 16, "gpu": "RTX"}}
+{"timestamp": "2025-03-27T15:09:27.711779", "query": "Мне нужен самый популярный ноутбук", "llm_response": "{\n    \"brand\": \"Apple\"\n}", "parsed": {"brand": "Apple"}}
