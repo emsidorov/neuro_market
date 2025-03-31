@@ -3,3 +3,5 @@ python-dotenv==1.0.1
 pandas==2.2.1
 aiogram==3.4.1
 openai==0.28
+tabulate
+matplotlib

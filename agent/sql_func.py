@@ -3,10 +3,12 @@ import openai
 import json
 import pandas as pd
 import re
+from agent.function import Function
 
 
-class SQLAgent:
+class SQLFunc(Function):
     def __init__(self, model="gpt-3.5-turbo", db_uri="data/datalaptops.db", max_attempts=3):
+        super().__init__()
         self.model = model
         self.db_uri = db_uri
         self.max_attempts = max_attempts
@@ -72,8 +74,8 @@ class SQLAgent:
             conn.close()
         return df
 
-    def process_message(self, user_input: str) -> dict:
-        self.messages.append({"role": "user", "content": self.prompt.format(query=user_input)})
+    def __call__(self, cache: dict, query: str) -> dict:
+        self.messages.append({"role": "user", "content": self.prompt.format(query=query)})
 
         attempts = 0
         prev_sql_query = ""
@@ -119,9 +121,11 @@ class SQLAgent:
             text_prompt = "Поиск в Базе Данных не дал результата, попробуй переформулировать запрос или поискать дополнительную информацию в web_search."
         else:
             text_prompt = f"Итоговый SQL запрос:\n {sql_query}\n\nИтоговая выдача из базы данных товаров:\n{results_text}"
-        
+    
         return {
             "sql_query": sql_query, 
-            "dataframe": df_results, 
-            "content": text_prompt
+            "dataframe": df_results,
+            "df_str":  text_prompt,
+            "content": text_prompt,
+            "log": text_prompt
         }
