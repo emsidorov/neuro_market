@@ -9,10 +9,12 @@ from aiogram.enums.parse_mode import ParseMode
 from dotenv import load_dotenv
 from agent.agent import LaptopAgent
 import re
+import openai
 
 # Загрузка переменных окружения
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Инициализация бота и диспетчера
 bot = Bot(token=BOT_TOKEN)
@@ -45,8 +47,6 @@ async def handle_help(message: Message):
     )
     await message.answer(help_text, parse_mode=ParseMode.MARKDOWN)
 
-
-
 # Обработчик команды /start
 @dp.message(CommandStart())
 async def handle_start(message: Message):
@@ -59,11 +59,12 @@ async def handle_text(message: Message):
     user_text = message.text
 
     try:
-        response = await asyncio.to_thread(agent.process_message, user_text)
+        response = await asyncio.to_thread(agent.process_message, user_text, user_id)
     except Exception as e:
         logging.exception("Ошибка при обработке сообщения агентом")
         response = "Извини, что-то пошло не так 😔"
 
+    print(response)
     # escaped_response = escape_md(response)
     await message.answer(response)
 
